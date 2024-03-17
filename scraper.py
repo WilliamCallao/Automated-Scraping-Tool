@@ -55,7 +55,7 @@ parametros = '?sort_by=created&sort_order=DESC&page='
 todos_anuncios = []
 
 pagina = 0
-limite_paginas = 10
+limite_paginas = 30
 
 anuncios_previos = cargar_anuncios_previos()
 anuncios_nuevos = []
