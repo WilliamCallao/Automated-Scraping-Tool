@@ -37,13 +37,25 @@ def save_to_csv(data, file_path):
 # URLs de las secciones
 urls = [
     "https://tarifas.att.gob.bo/index.php/tarifaspizarra/tarifasInternetMovil",
-    "https://tarifas.att.gob.bo/index.php/tarifaspizarra/tarifasServicioMovilPrepago"
+    "https://tarifas.att.gob.bo/index.php/tarifaspizarra/tarifasServicioMovilPrepago",
+    "https://tarifas.att.gob.bo/index.php/tarifaspizarra/tarifasInternetFijo",
+    "https://tarifas.att.gob.bo/index.php/tarifaspizarra/tarifasTvcable",
+    "https://tarifas.att.gob.bo/index.php/tarifaspizarra/tarifasServicioLocalTelefoniaFija",
+    "https://tarifas.att.gob.bo/index.php/tarifaspizarra/tarifasServicioAccesoPublico",
+    "https://tarifas.att.gob.bo/index.php/tarifaspizarra/serviciosEmpaquetados",
+    "https://tarifas.att.gob.bo/index.php/tarifaspizarra/promociones",
 ]
 
 # para los CSV de las secciones
 file_paths = [
     "serviciosMovil_Internet.csv",
     "serviciosMovil_Prepago.csv",
+    "serviciosFijos_Internet.csv",
+    "serviciosFIjos_Television.csv",
+    "serviciosLocal_TelefoniaFija.csv",
+    "servicio_AccesoPublico.csv",
+    "serviciosEmpaquetados_ServiciosTelecomunicaciones.csv",
+    "promociones_ServiciosTelecomunicaciones.csv"   
 ]
 
 for url, file_path in zip(urls, file_paths):
