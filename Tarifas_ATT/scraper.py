@@ -3,6 +3,7 @@ from bs4 import BeautifulSoup
 import re
 import json
 import csv
+import os
 
 def scrape_section(url):
     response = requests.get(url)
@@ -34,6 +35,16 @@ def save_to_csv(data, file_path):
             writer.writeheader()
             writer.writerows(data)
 
+#para el RawData.csv, pero será desordenado Dx
+def save_to_combined_csv(data, file_path):
+    if data:
+        mode = 'a' if os.path.exists(file_path) else 'w'
+        with open(file_path, mode=mode, newline='', encoding='utf-8') as file:
+            writer = csv.DictWriter(file, fieldnames=data[0].keys())
+            if mode == 'w':
+                writer.writeheader()
+            writer.writerows(data)
+            
 # URLs de las secciones
 urls = [
     "https://tarifas.att.gob.bo/index.php/tarifaspizarra/tarifasInternetMovil",
@@ -58,7 +69,19 @@ file_paths = [
     "promociones_ServiciosTelecomunicaciones.csv"   
 ]
 
+#para que se guarde en archivos separados
 for url, file_path in zip(urls, file_paths):
     data = scrape_section(url)
     if data:
         save_to_csv(data, file_path)
+        
+#para que se guarde en un solo archivo RawData.cvs
+combined_file_path = "RawData.csv"
+for file_path in file_paths:
+    if os.path.exists(file_path):
+        data = []
+        with open(file_path, mode='r', newline='', encoding='utf-8') as file:
+            reader = csv.DictReader(file)
+            for row in reader:
+                data.append(row)
+        save_to_combined_csv(data, combined_file_path)
