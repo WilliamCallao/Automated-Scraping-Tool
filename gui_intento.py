@@ -211,10 +211,8 @@ def open_new_window():
     combobox_hora.current(0)  
   
     combobox_hora.place(x=900, y=550)
-    # frecuencia_label = Label(new_window, text="Frecuencia:", font=("Arial", 13), bg="#DDF4FF")
-    # frecuencia_label.place(x=780, y=500)
-    fecha_label = Label(new_window, text="Frecuencia:", font=("Arial", 13), bg="#DDF4FF")
-    fecha_label.place(x=780, y=550)
+    frecuencia_label = Label(new_window, text="Frecuencia:", font=("Arial", 13), bg="#DDF4FF")
+    frecuencia_label.place(x=780, y=500)
     options_fecha = ["Diaria", "Semanal", "Mensual", "Trimestral"]  
     selected_fecha = StringVar()
     combobox_fecha = ttk.Combobox(new_window, textvariable=selected_fecha, values=options_fecha, state="readonly", font=("Arial", 13))
