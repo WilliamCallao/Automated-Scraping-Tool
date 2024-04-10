@@ -179,7 +179,7 @@ def open_new_window():
     programada_checkbox.place(x=900, y=460)
     
     hora_label = Label(new_window, text="Hora:", font=("Arial", 13), bg="#DDF4FF")
-    hora_label.place(x=780, y=500)
+    hora_label.place(x=826, y=550)
     
     options_horas = ["00:00 am", "01:00 am", "02:00 am", "03:00 am", "04:00 am", "05:00 am", "06:00 am", "07:00 am", "08:00 am",
                  "09:00 am", "10:00 am", "11:00 am", "12:00 pm", "01:00 pm", "02:00 pm", "03:00 pm", "04:00 pm",
@@ -188,15 +188,15 @@ def open_new_window():
     combobox_hora = ttk.Combobox(new_window, textvariable=selected_hora, values=options_horas, state="readonly", font=("Arial", 13))
     combobox_hora.current(0)  
   
-    combobox_hora.place(x=850, y=500)
+    combobox_hora.place(x=900, y=550)
     
-    fecha_label = Label(new_window, text="Fecha:", font=("Arial", 13), bg="#DDF4FF")
-    fecha_label.place(x=780, y=550)
+    frecuencia_label = Label(new_window, text="Frecuencia:", font=("Arial", 13), bg="#DDF4FF")
+    frecuencia_label.place(x=780, y=500)
     options_fecha = ["Diaria", "Semanal", "Mensual", "Trimestral"]  
     selected_fecha = StringVar()
     combobox_fecha = ttk.Combobox(new_window, textvariable=selected_fecha, values=options_fecha, state="readonly", font=("Arial", 13))
     combobox_fecha.current(0)    
-    combobox_fecha.place(x=850, y=550)
+    combobox_fecha.place(x=900, y=500)
 
 def close_new_window(new_window):
     new_window.destroy()  
