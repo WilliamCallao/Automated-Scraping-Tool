@@ -7,7 +7,13 @@ import re
 import json
 import csv
 import os
+from tkinter import messagebox
+from datetime import datetime
+import threading
 
+window = Tk()
+window.title("Ventana centrada")
+window.configure(bg="#FFFFFF")
 # Ruta de la imagen
 OUTPUT_PATH = Path(__file__).parent
 ASSETS_PATH = OUTPUT_PATH / "assets" / "frame1"
@@ -17,7 +23,21 @@ pantalla_20_image_path = ASSETS_PATH / "pantalla_20.png"
 back_image_path = ASSETS_PATH / "back.png"
 extraer_image_path = ASSETS_PATH / "extraer.png"
 
+selected_hora = StringVar()
+programada_var = IntVar()
+timer = None
 
+def check_time_and_execute():
+    global timer
+    current_time = datetime.now().strftime("%H:%M")
+    selected_time = selected_hora.get()
+    if current_time == selected_time and programada_var.get() == 1:
+        initiate_scraping()
+    
+    timer = threading.Timer(60, check_time_and_execute)
+    timer.start()
+
+    
 def scrape_section(url, filtros):
     """
     Extrae y filtra datos del sitio web basado en los parámetros proporcionados.
@@ -107,10 +127,12 @@ def save_to_csv(new_data, file_path):
                 writer.writeheader()
             writer.writerows(new_rows)
 
-        print(f"Se agregaron {len(new_rows)} registros nuevos al archivo {file_path}.")
+        # print(f"Se agregaron {len(new_rows)} registros nuevos al archivo {file_path}.")
+        messagebox.showinfo("Información", f"Se agregaron {len(new_rows)} registros nuevos al archivo {file_path}.")
     else:
-        print("No se encontraron registros nuevos para agregar.")
-
+        # print("No se encontraron registros nuevos para agregar.")
+        messagebox.showinfo("Información", "No se encontraron registros nuevos para agregar.")
+        
 def initiate_scraping():
     filtros = {
         "departamento": selected_departamento.get(),
@@ -126,10 +148,10 @@ def initiate_scraping():
 
     # Guardar los datos filtrados en CSV
     if datos_filtrados:
-        save_to_csv(datos_filtrados, "datos_filtrados.csv")
+        save_to_csv(datos_filtrados, "serviciosFijos_Internet.csv")
     else:
-        print("No se encontraron datos con los filtros aplicados.")
-
+        # print("No se encontraron datos con los filtros aplicados.")
+        messagebox.showerror("Error", "No se encontraron datos con los filtros aplicados.")
 def center_elements(window):
     window.update_idletasks()  # Actualizar las dimensiones de la ventana
     window_width = window.winfo_width()
@@ -181,16 +203,16 @@ def open_new_window():
     hora_label = Label(new_window, text="Hora:", font=("Arial", 13), bg="#DDF4FF")
     hora_label.place(x=780, y=500)
     
-    options_horas = ["00:00 am", "01:00 am", "02:00 am", "03:00 am", "04:00 am", "05:00 am", "06:00 am", "07:00 am", "08:00 am",
-                 "09:00 am", "10:00 am", "11:00 am", "12:00 pm", "01:00 pm", "02:00 pm", "03:00 pm", "04:00 pm",
-                 "05:00 pm", "06:00 pm", "07:00 pm", "08:00 pm", "09:00 pm", "10:00 pm", "11:00 pm"]
+    options_horas = ["00:00", "01:00", "02:00", "03:00", "04:00", "05:00", "06:00", "07:00", "08:00",
+                 "09:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00",
+                 "17:00", "18:00", "19:00", "20:00", "21:00", "22:00", "23:00"]
     selected_hora = StringVar()
     combobox_hora = ttk.Combobox(new_window, textvariable=selected_hora, values=options_horas, state="readonly", font=("Arial", 13))
     combobox_hora.current(0)  
   
     combobox_hora.place(x=850, y=500)
     
-    fecha_label = Label(new_window, text="Fecha:", font=("Arial", 13), bg="#DDF4FF")
+    fecha_label = Label(new_window, text="Frecuencia:", font=("Arial", 13), bg="#DDF4FF")
     fecha_label.place(x=780, y=550)
     options_fecha = ["Diaria", "Semanal", "Mensual", "Trimestral"]  
     selected_fecha = StringVar()
@@ -199,12 +221,17 @@ def open_new_window():
     combobox_fecha.place(x=850, y=550)
 
 def close_new_window(new_window):
-    new_window.destroy()  
-    window.deiconify() 
+    new_window.destroy()
+    window.deiconify()
+    timer.cancel()
+    
+def on_closing():
+    if messagebox.askokcancel("Salir", "¿Quieres salir?"):
+        if timer is not None:
+            timer.cancel()
+        window.destroy()
 # Crear la ventana
-window = Tk()
-window.title("Ventana centrada")
-window.configure(bg="#FFFFFF")
+
 window.bind("<Configure>", lambda event: center_elements(window))
 image = PhotoImage(file=image_path)
 image_label = Label(window, image=image, bg="#FFFFFF")
@@ -229,15 +256,13 @@ combobox_operador.current(0)
 label_precio_min = Label(window, text="Min:", font=("Arial", 13), bg="#DDF4FF")
 
 entry_precio_min = Spinbox(window, from_=0, to=9999, font=("Arial", 13), width=6)
-entry_precio_min.delete(0, "end")  
-entry_precio_min.insert(0, "100") 
+entry_precio_min.delete(0, "end") 
 entry_precio_min.insert(0, "0") 
 
 label_precio_max = Label(window, text="Max:", font=("Arial", 13), bg="#DDF4FF")
 
 entry_precio_max = Spinbox(window, from_=0, to=9999, font=("Arial", 13), width=6)
-entry_precio_max.delete(0, "end")  
-entry_precio_max.insert(0, "500") 
+entry_precio_max.delete(0, "end")
 entry_precio_max.insert(0, "9999") 
 
 options_velocidad = ["100 Mbps", "200 Mbps", "300 Mbps", "400 Mbps", "500 Mbps"]
@@ -252,4 +277,6 @@ boton_continuar = Button(window, image=continuar_image, bg="#FFFFFF", bd=0, comm
 style = ttk.Style()
 style.theme_use('clam')  
 style.configure('TCombobox', background='#FFFFFF', foreground='#000000', bordercolor='#000000', selectbackground='#DDF4FF', selectforeground='#000000')
+check_time_and_execute()
+window.protocol("WM_DELETE_WINDOW", on_closing)
 window.mainloop()
