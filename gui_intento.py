@@ -174,6 +174,18 @@ def center_elements(window):
     entry_precio_max.place(x=830, y=570) 
     combobox_velocidad.place(x=1100, y=530)  
     boton_continuar.place(x=900, y=630) 
+    
+def close_new_window(new_window):
+    new_window.destroy()
+    window.deiconify()
+    timer.cancel()
+    
+def on_closing():
+    if messagebox.askokcancel("Salir", "¿Quieres salir?"):
+        if timer is not None:
+            timer.cancel()
+        window.destroy()
+        
 def open_new_window():
     window.withdraw()  # Ocultar la ventana actual
     new_window = Toplevel()
@@ -218,17 +230,9 @@ def open_new_window():
     combobox_fecha = ttk.Combobox(new_window, textvariable=selected_fecha, values=options_fecha, state="readonly", font=("Arial", 13))
     combobox_fecha.current(0)    
     combobox_fecha.place(x=900, y=500)
+    window.protocol("WM_DELETE_WINDOW", on_closing)
 
-def close_new_window(new_window):
-    new_window.destroy()
-    window.deiconify()
-    timer.cancel()
-    
-def on_closing():
-    if messagebox.askokcancel("Salir", "¿Quieres salir?"):
-        if timer is not None:
-            timer.cancel()
-        window.destroy()
+
 # Crear la ventana
 
 window.bind("<Configure>", lambda event: center_elements(window))
