@@ -8,23 +8,6 @@ Este proyecto tiene como objetivo recolectar y limpiar datos de tres sitios web 
 2. **Zillow - Sitio de Bienes Raíces**
 3. **ATT - Paquetes de Internet**
 
-## Estructura del Proyecto
-
-```plaintext
-.
-├── ATT_Tarifas
-│   ├── ATT_scraper.py
-│   ├── Programa.py
-│   └── requirements.txt
-├── LosTiempos_Inmuebles
-│   ├── DataCleaner.py
-│   ├── requirements.txt
-│   └── Scraper.py
-└── Zillow_Inmuebles
-    ├── requirements.txt
-    └── Scraper.py
-```
-
 ## Instalación
 
 ### Requisitos
@@ -35,7 +18,7 @@ Este proyecto tiene como objetivo recolectar y limpiar datos de tres sitios web 
 
 1. Clonar el repositorio:
    ```sh
-   git clone https://github.com/tu_usuario/tu_repositorio.git
+   git clone https://github.com/WilliamCallao/ATT-Automated-Scraping-Tool.git
    cd tu_repositorio
    ```
 
@@ -57,12 +40,18 @@ Este proyecto tiene como objetivo recolectar y limpiar datos de tres sitios web 
 
 ## Uso
 
-### AT&T Tarifas
-Para ejecutar el script de scraping de AT&T:
+### ATT Tarifas
+Para ejecutar el script de scraping de ATT:
 ```sh
 cd ATT_Tarifas
 python ATT_scraper.py
 ```
+Para ejecutar la herramienta de recoleccion
+```sh
+cd ATT_Tarifas
+python Programa.py
+```
+![image](https://github.com/WilliamCallao/ATT-Automated-Scraping-Tool/assets/96638909/3a8e01fc-829d-48d6-95ef-4873f51ca49e)
 
 ### Los Tiempos Inmuebles
 Para ejecutar el script de scraping de Los Tiempos:
@@ -82,9 +71,3 @@ Para ejecutar el script de scraping de Zillow:
 cd Zillow_Inmuebles
 python Scraper.py
 ```
-
-## Contribuciones
-Si deseas contribuir a este proyecto, por favor abre un issue o envía un pull request.
-
-## Licencia
-Este proyecto está licenciado bajo la Licencia MIT. Ver el archivo [LICENSE](LICENSE) para más detalles.
